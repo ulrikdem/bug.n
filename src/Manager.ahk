@@ -1240,3 +1240,27 @@ Manager_windowNotMaximized(width, height) {
   Global
   Return, (width < 0.99 * Monitor_#%Manager_aMonitor%_width Or height < 0.99 * Monitor_#%Manager_aMonitor%_height)
 }
+
+Manager_swapViewMonitor(i, d = 0, vi = 0, dv = 0) {
+  Local j, vj
+  j := Manager_aMonitor
+  vj := Monitor_#%j%_aView_#1
+
+  If (i = 0)
+    i := j
+  i := Manager_loop(i, d, 1, Manager_monitorCount)
+  If (vi = 0)
+    vi := Monitor_#%i%_aView_#1
+  vi := Manager_loop(vi, dv, 1, Config_viewCount)
+
+  View_moveToIndex(i, vi, 0, 1)
+  View_moveToIndex(j, vj, i, vi)
+  View_moveToIndex(0, 1, j, vj)
+
+  Bar_updateView(i, vi)
+  If (vi = Monitor_#%i%_aView_#1) {
+    View_arrange(i, vi)
+    Monitor_activateView(vj)
+  } Else
+    Monitor_activateView(vj, 0, View_#%i%_#%vi%_wndIds)
+}

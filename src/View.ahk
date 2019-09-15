@@ -234,8 +234,13 @@ View_moveToIndex(m, v, n, w) {
   StringTrimRight, wndIds, View_#%n%_#%w%_wndIds, 1
   Loop, PARSE, wndIds, `;
   {
-    Window_#%A_LoopField%_monitor := n
-    Window_#%A_LoopField%_tags -= 1 << v - 1
+    If (Window_#%A_LoopField%_monitor != n)
+    {
+      Window_#%A_LoopField%_monitor := n
+      Window_#%A_LoopField%_tags := 0
+    }
+    Else
+      Window_#%A_LoopField%_tags -= 1 << v - 1
     Window_#%A_LoopField%_tags += 1 << w - 1
   }
 }
