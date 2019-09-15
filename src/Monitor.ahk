@@ -371,3 +371,21 @@ Monitor_toggleWindowTag(i, d = 0) {
     }
   }
 }
+
+Monitor_swapView(i, d = 0) {
+  Local m, j
+  m := Manager_aMonitor
+  j := Monitor_#%m%_aView_#1
+
+  If (i = 0)
+    i := j
+  i := Manager_loop(i, d, 1, Config_viewCount)
+
+  View_moveToIndex(m, i, m, Config_viewCount + 1)
+  View_moveToIndex(m, j, m, i)
+  View_moveToIndex(m, Config_viewCount + 1, m, j)
+
+  Monitor_#%m%_aView_#1 := i
+  Bar_updateView(m, i)
+  Bar_updateView(m, j)
+}
