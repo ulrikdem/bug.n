@@ -33,6 +33,7 @@ Config_init() {
   }
   Config_barTransparency   := "off"
   Config_barCommands       := "Run, explore " Main_docDir ";Monitor_toggleBar();Reload;ExitApp"
+  Config_showShebang       := True
   Config_readinBat         := False
   Config_readinCpu         := False
   Config_readinDate        := True

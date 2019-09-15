@@ -150,6 +150,12 @@ the bar (#!) and therewith can be selected rather then typed; bug.n functions
 AutoHotkey can be used here.
 
 -------------------------------------------------------------------------------
+`Config_showShebang=1`
+
+If true (`=1`), the command GUI can be toggled by clicking a shebang (#!) shown
+in the status bar.
+
+-------------------------------------------------------------------------------
 `Config_readinBat=0`
 
 If true (`=1`), the system battery status is read in and displayed in the

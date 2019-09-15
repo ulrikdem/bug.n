@@ -64,7 +64,8 @@ Bar_init(m) {
   ;; <view>;<layout>;<title>;<shebang>;<time>;<date>;<anyText>;<batteryStatus>;<volumeLevel>
   color := "4"
   id    := "shebang"
-  text  := " #! "
+  If Config_showShebang
+    text  := " #! "
   If Config_readinTime {
     color .= ";5"
     id    .= ";time"
@@ -393,7 +394,8 @@ Bar_updateStatic(m) {
   Local GuiN
 
   GuiN := (m - 1) + 1
-  GuiControl, %GuiN%: , Bar_#%m%_shebang, #!
+  If Config_showShebang
+    GuiControl, %GuiN%: , Bar_#%m%_shebang, #!
 }
 
 Bar_updateStatus() {
