@@ -503,19 +503,25 @@ Bar_updateView(m, v) {
   StringTrimRight, wndIds, Manager_managedWndIds, 1
   StringSplit, managedWndId, wndIds, `;
 
-  If (v = Monitor_#%m%_aView_#1) {
-    ;; Set foreground/background colors if the view is the current view.
-    GuiControl, +Background%Config_backColor_#2_#1% +c%Config_foreColor_#2_#1%, Bar_#%m%_view_#%v%_highlighted
-    GuiControl, +c%Config_fontColor_#2_#1%, Bar_#%m%_view_#%v%
-  } Else {
-    ;; Set foreground/background colors.
-    GuiControl, +Background%Config_backColor_#1_#1% +c%Config_foreColor_#1_#1%, Bar_#%m%_view_#%v%_highlighted
-    GuiControl, +c%Config_fontColor_#1_#1%, Bar_#%m%_view_#%v%
-  }
-
   Loop, % Config_viewCount {
     StringTrimRight, wndIds, View_#%m%_#%A_Index%_wndIds, 1
     StringSplit, wndId, wndIds, `;
+
+    v := A_Index
+    If (v = Monitor_#%m%_aView_#1) {
+      ;; Set foreground/background colors if the view is the current view.
+      GuiControl, +Background%Config_backColor_#3_#1% +c%Config_foreColor_#3_#1%, Bar_#%m%_view_#%v%_highlighted
+      GuiControl, +c%Config_fontColor_#3_#1%, Bar_#%m%_view_#%v%
+    } Else If (wndId0 > 0) {
+      ;; Set foreground/background colors if the view is occupied.
+      GuiControl, +Background%Config_backColor_#2_#1% +c%Config_foreColor_#2_#1%, Bar_#%m%_view_#%v%_highlighted
+      GuiControl, +c%Config_fontColor_#2_#1%, Bar_#%m%_view_#%v%
+    } Else {
+      ;; Set foreground/background colors if the view is empty.
+      GuiControl, +Background%Config_backColor_#1_#1% +c%Config_foreColor_#1_#1%, Bar_#%m%_view_#%v%_highlighted
+      GuiControl, +c%Config_fontColor_#1_#1%, Bar_#%m%_view_#%v%
+    }
+
     GuiControl, , Bar_#%m%_view_#%A_Index%_highlighted, % wndId0 / managedWndId0 * 100    ;; Update the percentage fill for the view.
     GuiControl, , Bar_#%m%_view_#%A_Index%, % Config_viewNames_#%A_Index%                 ;; Refresh the number on the bar.
   }

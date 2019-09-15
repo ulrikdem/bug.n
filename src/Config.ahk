@@ -223,27 +223,27 @@ Config_getSystemSettings() {
       Config_backColor_#1 .= COLOR_GRADIENTINACTIVECAPTION ";" COLOR_GRADIENTACTIVECAPTION ";" COLOR_GRADIENTACTIVECAPTION
     }
     If Not Config_backColor_#2
-      Config_backColor_#2 := COLOR_GRADIENTACTIVECAPTION ";;;;;;;" COLOR_MENU ";" COLOR_MENU
+      Config_backColor_#2 := COLOR_GRADIENTINACTIVECAPTION ";;;;;;;" COLOR_MENU ";" COLOR_MENU
     If Not Config_backColor_#3
-      Config_backColor_#3 := ";;;;;;;ff8040;"
+      Config_backColor_#3 := COLOR_GRADIENTACTIVECAPTION ";;;;;;;ff8040;"
 
     If Not Config_foreColor_#1 {
       Config_foreColor_#1 := COLOR_INACTIVECAPTION ";" COLOR_ACTIVECAPTION ";" COLOR_MENU ";" COLOR_ACTIVECAPTION ";" COLOR_MENU ";" COLOR_ACTIVECAPTION ";"
       Config_foreColor_#1 .= COLOR_INACTIVECAPTION ";" COLOR_ACTIVECAPTION ";" COLOR_GRADIENTINACTIVECAPTION
     }
     If Not Config_foreColor_#2
-      Config_foreColor_#2 := COLOR_ACTIVECAPTION ";;;;;;;" COLOR_HIGHLIGHT ";" COLOR_HIGHLIGHT
+      Config_foreColor_#2 := COLOR_INACTIVECAPTION ";;;;;;;" COLOR_HIGHLIGHT ";" COLOR_HIGHLIGHT
     If Not Config_foreColor_#3
-      Config_foreColor_#3 := ";;;;;;;" COLOR_INACTIVECAPTION ";"
+      Config_foreColor_#3 := COLOR_ACTIVECAPTION ";;;;;;;" COLOR_INACTIVECAPTION ";"
 
     If Not Config_fontColor_#1 {
       Config_fontColor_#1 := COLOR_INACTIVECAPTIONTEXT ";" COLOR_CAPTIONTEXT ";" COLOR_MENUTEXT ";" COLOR_CAPTIONTEXT ";" COLOR_MENUTEXT ";" COLOR_CAPTIONTEXT ";"
       Config_fontColor_#1 .= COLOR_INACTIVECAPTIONTEXT ";" COLOR_CAPTIONTEXT ";" COLOR_INACTIVECAPTIONTEXT
     }
     If Not Config_fontColor_#2
-      Config_fontColor_#2 := COLOR_CAPTIONTEXT ";;;;;;;" COLOR_MENUTEXT ";" COLOR_MENUTEXT
+      Config_fontColor_#2 := COLOR_INACTIVECAPTIONTEXT ";;;;;;;" COLOR_MENUTEXT ";" COLOR_MENUTEXT
     If Not Config_fontColor_#3
-      Config_fontColor_#3 := ";;;;;;;" COLOR_INACTIVECAPTIONTEXT ";"
+      Config_fontColor_#3 := COLOR_CAPTIONTEXT ";;;;;;;" COLOR_INACTIVECAPTIONTEXT ";"
   }
   SetFormat, Integer, d
 
