@@ -390,6 +390,12 @@ If true (`=1`), the mouse pointer is set over the focused window, if a window
 is activated by bug.n.
 
 -------------------------------------------------------------------------------
+`Config_focusFollowsMouse=0`
+
+If true (`=1`), windows and monitors can be activated by moving the mouse
+pointer over them.
+
+-------------------------------------------------------------------------------
 `Config_newWndPosition=top`
 
 The position of a new window in a view; `top`: at the beginning of the window

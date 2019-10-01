@@ -67,6 +67,8 @@ Manager_init()
   Manager_registerShellHook()
   SetTimer, Manager_doMaintenance, %Config_maintenanceInterval%
   SetTimer, Bar_loop, %Config_readinInterval%
+  If Config_focusFollowsMouse
+    SetTimer, Manager_watchMouseLabel, 100
 }
 
 Manager_activateMonitor(i, d = 0) {
@@ -1268,4 +1270,25 @@ Manager_swapViewMonitor(i, d = 0, vi = 0, dv = 0) {
     Monitor_activateView(vj)
   } Else
     Monitor_activateView(vj, 0, View_#%i%_#%vi%_wndIds)
+}
+
+Manager_watchMouseLabel:
+  Manager_watchMouse()
+Return
+
+Manager_watchMouse() {
+  Local m, wndId, x, y
+  Static oldM, oldWndId
+
+  CoordMode, Mouse, Screen
+  MouseGetPos, x, y, wndId
+  m := Monitor_get(x, y)
+  If (m != oldM) {
+    Manager_activateMonitor(m)
+    oldM := m
+  }
+  If (wndId != oldWndId) And Not Window_isPopup(wndId) {
+    Window_activate(wndId)
+    oldWndId := wndId
+  }
 }

@@ -76,6 +76,7 @@ Config_init() {
   Config_ghostWndSubString  := " (Not Responding)"
   Config_mFactCallInterval  := 700
   Config_mouseFollowsFocus  := True
+  Config_focusFollowsMouse  := True
   Config_newWndPosition     := "top"
   Config_onActiveHiddenWnds := "view"
   Config_shellMsgDelay      := 350
