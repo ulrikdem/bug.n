@@ -436,6 +436,11 @@ activated per view with the hotkey <kbd>Win</kbd><kbd>Shift</kbd><kbd>N</kbd>
 monitor, which is not occupied by the layout, therewith making a desktop widget
 visible.
 
+-------------------------------------------------------------------------------
+`Config_centerFloatingWnd=0`
+
+If true (`=1`), new floating windows will be centered on the current monitor.
+
 ### Rules
 
 For a general description of rules and how they can be replaced or added see

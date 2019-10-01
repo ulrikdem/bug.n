@@ -238,6 +238,7 @@ View_moveToIndex(m, v, n, w) {
     {
       Window_#%A_LoopField%_monitor := n
       Window_#%A_LoopField%_tags := 0
+      Window_moveToCenter(A_LoopField)
     }
     Else
       Window_#%A_LoopField%_tags -= 1 << v - 1
@@ -389,7 +390,7 @@ View_shuffleWindow(i, d = 0) {
 }
 
 View_toggleFloatingWindow(wndId = 0) {
-  Local l, v
+  Local l, v, wndX, wndY, wndW, wndH
 
   If (wndId = 0)
     WinGet, wndId, ID, A
@@ -398,6 +399,8 @@ View_toggleFloatingWindow(wndId = 0) {
   Debug_logMessage("DEBUG[2] View_toggleFloatingWindow; wndId: " . wndId, 2)
   If (Config_layoutFunction_#%l% And InStr(Manager_managedWndIds, wndId ";")) {
     Window_#%wndId%_isFloating := Not Window_#%wndId%_isFloating
+    If Config_centerFloatingWnd
+      Window_moveToCenter(wndId)
     View_arrange(Manager_aMonitor, v)
     Bar_updateTitle()
   }

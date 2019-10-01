@@ -331,3 +331,18 @@ Window_toggleDecor(wndId = 0) {
   Else
     Window_set(wndId, "Style", "-0xC00000")
 }
+
+Window_moveToCenter(wndId = 0, allowTiled = False) {
+  Local m, wndX, wndY, wndW, wndH
+
+  If (wndId = 0)
+    WinGet, wndId, ID, A
+  m := Window_#%wndId%_monitor
+  If Not (Window_#%wndId%_isFloating Or allowTiled)
+    Return
+
+  Window_getPosEx(wndId, wndX, wndY, wndW, wndH)
+  wndX := Monitor_#%m%_x + Monitor_#%m%_width / 2 - wndW / 2
+  wndY := Monitor_#%m%_y + Monitor_#%m%_height / 2 - wndH / 2
+  Window_move(wndId, wndX, wndY, wndW, wndH)
+}

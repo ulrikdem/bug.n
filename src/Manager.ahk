@@ -307,7 +307,7 @@ Manager_loop(index, increment, lowerBound, upperBound) {
 }
 
 Manager__setWinProperties(wndId, isManaged, m, tags, isDecorated, isFloating, hideTitle, action = "") {
-  Local a := False
+  Local a := False, wndX, wndY, wndW, wndH
 
   If Not InStr(Manager_allWndIds, wndId ";")
     Manager_allWndIds .= wndId ";"
@@ -321,6 +321,8 @@ Manager__setWinProperties(wndId, isManaged, m, tags, isDecorated, isFloating, hi
     Window_#%wndId%_monitor     := m
     Window_#%wndId%_tags        := tags
     Window_#%wndId%_isDecorated := isDecorated
+    If Not Window_#%wndId%_isFloating And isFloating And Config_centerFloatingWnd
+      Window_moveToCenter(wndId, True)
     Window_#%wndId%_isFloating  := isFloating
     Window_#%wndId%_isMinimized := False
     Window_#%wndId%_area        := 0
@@ -713,6 +715,7 @@ Manager_resetMonitorConfiguration() {
           Loop, PARSE, wndIds, `;
           {
             Window_#%A_LoopField%_monitor := mPrimary
+            Window_moveToCenter(A_LoopField)
           }
           If (Manager_aMonitor = i)
             Manager_aMonitor := mPrimary
@@ -1010,6 +1013,7 @@ Manager_setViewMonitor(i, d = 0) {
       }
       Window_#%A_LoopField%_monitor := i
       Window_#%A_LoopField%_tags := 1 << v - 1
+      Window_moveToCenter(A_LoopField)
     }
     View_arrange(Manager_aMonitor, aView)
     Loop, % Config_viewCount {
@@ -1075,6 +1079,7 @@ Manager_setWindowMonitor(i, d = 0) {
     View_setActiveWindow(Manager_aMonitor, v, aWndId)
     If Config_dynamicTiling
       View_arrange(Manager_aMonitor, v)
+    Window_moveToCenter(aWndId)
     Manager_winActivate(aWndId)
     Bar_updateView(Manager_aMonitor, v)
   }
