@@ -163,6 +163,11 @@ At least on Windows >= 8 with `Config_verticalBarPos=tray` the bar won't be
 visible at all, if `Config_barTransparency` is not set to `off`.
 
 -------------------------------------------------------------------------------
+`Config_floatPrefix=~`
+
+A string that is prepended to floating window titles in the status bar.
+
+-------------------------------------------------------------------------------
 `Config_barCommands=Run, explore doc;Monitor_toggleBar();Reload;ExitApp`
 
 The commands separated by semicolon, which are listed in the command GUI of
