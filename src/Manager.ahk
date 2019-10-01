@@ -581,7 +581,7 @@ Manager_onShellMessage(wParam, lParam) {
       m := Monitor_get(aWndX + aWndWidth / 2, aWndY + aWndHeight / 2)
       Debug_logMessage("DEBUG[1] Manager_onShellMessage: Manager_monitorCount: " Manager_monitorCount ", Manager_aMonitor: " Manager_aMonitor ", m: " m ", aWndId: " aWndId, 1)
       ;; The currently active window defines the active monitor.
-      If m
+      If m And Not (aWndClass = "Windows.UI.Core.CoreWindow" And aWndTitle = "Search")
         Manager_aMonitor := m
     }
 
