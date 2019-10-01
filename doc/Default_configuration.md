@@ -90,8 +90,14 @@ it is not muted.
 `Config_backColor_#3=<COLOR_GRADIENTACTIVECAPTION>;;;;;;;ff8040;`
 
 The background color of bar elements, which are highlighted depending on the
-status, i.a. the active view and a discharging battery with a battery level
+status, i.a. an active view and a discharging battery with a battery level
 lower than 10%.
+
+-------------------------------------------------------------------------------
+`Config_backColor_#4=<COLOR_GRADIENTACTIVECAPTION>;;;;;;;;`
+
+The background color of bar elements, which are highlighted depending on the
+status, i.a. the active view on the current monitor.
 
 -------------------------------------------------------------------------------
 `Config_foreColor_#1=<COLOR_INACTIVECAPTION>;<COLOR_ACTIVECAPTION>;<COLOR_MENU>;<COLOR_ACTIVECAPTION>;<COLOR_MENU>;<COLOR_ACTIVECAPTION>;<COLOR_INACTIVECAPTION>;<COLOR_ACTIVECAPTION>;<COLOR_GRADIENTINACTIVECAPTION>`
@@ -111,8 +117,14 @@ it is not muted.
 `Config_foreColor_#3=<COLOR_ACTIVECAPTION>;;;;;;;<COLOR_INACTIVECAPTION>;`
 
 The foreground color of bar elements, which are highlighted depending on the
-status, i.a. the active view and a discharging battery with a battery level
+status, i.a. an active view and a discharging battery with a battery level
 lower than 10%.
+
+-------------------------------------------------------------------------------
+`Config_foreColor_#4=<COLOR_ACTIVECAPTION>;;;;;;;;`
+
+The foreground color of bar elements, which are highlighted depending on the
+status, i.a. the active view on the current monitor.
 
 -------------------------------------------------------------------------------
 `Config_fontColor_#1=<COLOR_INACTIVECAPTIONTEXT>;<COLOR_CAPTIONTEXT>;<COLOR_MENUTEXT>;<COLOR_CAPTIONTEXT>;<COLOR_MENUTEXT>;<COLOR_CAPTIONTEXT>;<COLOR_INACTIVECAPTIONTEXT>;<COLOR_CAPTIONTEXT>;<COLOR_INACTIVECAPTIONTEXT>`
@@ -130,8 +142,14 @@ it is not muted.
 `Config_fontColor_#3=<COLOR_CAPTIONTEXT>;;;;;;;<COLOR_INACTIVECAPTIONTEXT>;`
 
 The fontground color of bar elements, which are highlighted depending on the
-status, i.a. the active view and a discharging battery with a battery level
+status, i.a. an active view and a discharging battery with a battery level
 lower than 10%.
+
+-------------------------------------------------------------------------------
+`Config_fontColor_#4=<COLOR_CAPTIONTEXT>;;;;;;;;`
+
+The fontground color of bar elements, which are highlighted depending on the
+status, i.a. the active view on the current monitor.
 
 > The default color values are retrieved from the "Window Color and Appearance"
 settings.

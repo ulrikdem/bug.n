@@ -26,7 +26,7 @@ Config_init() {
   Config_fontName          := "Lucida Console"
   Config_fontSize          :=
   Config_largeFontSize     := 24
-  Loop, 3 {
+  Loop, 4 {
     Config_backColor_#%A_Index% :=
     Config_foreColor_#%A_Index% :=
     Config_fontColor_#%A_Index% :=
@@ -135,7 +135,7 @@ Config_init() {
 Config_initColors() {
   Global
 
-  Loop, 3 {
+  Loop, 4 {
     StringReplace, Config_backColor_#%A_Index%, Config_backColor_#%A_Index%, `;0`;, `;000000`;, All
     Config_backColor_#%A_Index% := RegExReplace(Config_backColor_#%A_Index%, "^0;", "000000;")
     Config_backColor_#%A_Index% := RegExReplace(Config_backColor_#%A_Index%, ";0$", ";000000")
@@ -174,6 +174,7 @@ Config_getSystemSettings() {
   Global Config_backColor_#1, Config_foreColor_#1, Config_fontColor_#1
   Global Config_backColor_#2, Config_foreColor_#2, Config_fontColor_#2
   Global Config_backColor_#3, Config_foreColor_#3, Config_fontColor_#3
+  Global Config_backColor_#4, Config_foreColor_#4, Config_fontColor_#4
   Global Config_fontName, Config_fontSize, Config_scalingFactor
 
   If Not Config_fontName {
@@ -207,7 +208,8 @@ Config_getSystemSettings() {
   SetFormat, Integer, hex
   If Not (Config_backColor_#1 And Config_foreColor_#1 And Config_fontColor_#1
       And Config_backColor_#2 And Config_foreColor_#2 And Config_fontColor_#2
-      And Config_backColor_#3 And Config_foreColor_#3 And Config_fontColor_#3) {
+      And Config_backColor_#3 And Config_foreColor_#3 And Config_fontColor_#3
+      And Config_backColor_#4 And Config_foreColor_#4 And Config_fontColor_#4) {
     COLOR_ACTIVECAPTION           := Config_convertSystemColor(DllCall("GetSysColor", "Int",  2))
     COLOR_CAPTIONTEXT             := Config_convertSystemColor(DllCall("GetSysColor", "Int",  9))
     COLOR_GRADIENTACTIVECAPTION   := Config_convertSystemColor(DllCall("GetSysColor", "Int", 27))
@@ -226,6 +228,8 @@ Config_getSystemSettings() {
       Config_backColor_#2 := COLOR_GRADIENTINACTIVECAPTION ";;;;;;;" COLOR_MENU ";" COLOR_MENU
     If Not Config_backColor_#3
       Config_backColor_#3 := COLOR_GRADIENTACTIVECAPTION ";;;;;;;ff8040;"
+    If Not Config_backColor_#4
+      Config_backColor_#4 := COLOR_GRADIENTACTIVECAPTION ";;;;;;;;"
 
     If Not Config_foreColor_#1 {
       Config_foreColor_#1 := COLOR_INACTIVECAPTION ";" COLOR_ACTIVECAPTION ";" COLOR_MENU ";" COLOR_ACTIVECAPTION ";" COLOR_MENU ";" COLOR_ACTIVECAPTION ";"
@@ -235,6 +239,8 @@ Config_getSystemSettings() {
       Config_foreColor_#2 := COLOR_INACTIVECAPTION ";;;;;;;" COLOR_HIGHLIGHT ";" COLOR_HIGHLIGHT
     If Not Config_foreColor_#3
       Config_foreColor_#3 := COLOR_ACTIVECAPTION ";;;;;;;" COLOR_INACTIVECAPTION ";"
+    If Not Config_foreColor_#4
+      Config_foreColor_#4 := COLOR_ACTIVECAPTION ";;;;;;;;"
 
     If Not Config_fontColor_#1 {
       Config_fontColor_#1 := COLOR_INACTIVECAPTIONTEXT ";" COLOR_CAPTIONTEXT ";" COLOR_MENUTEXT ";" COLOR_CAPTIONTEXT ";" COLOR_MENUTEXT ";" COLOR_CAPTIONTEXT ";"
@@ -244,6 +250,8 @@ Config_getSystemSettings() {
       Config_fontColor_#2 := COLOR_INACTIVECAPTIONTEXT ";;;;;;;" COLOR_MENUTEXT ";" COLOR_MENUTEXT
     If Not Config_fontColor_#3
       Config_fontColor_#3 := COLOR_CAPTIONTEXT ";;;;;;;" COLOR_INACTIVECAPTIONTEXT ";"
+    If Not Config_fontColor_#4
+      Config_fontColor_#4 := COLOR_CAPTIONTEXT ";;;;;;;;"
   }
   SetFormat, Integer, d
 
