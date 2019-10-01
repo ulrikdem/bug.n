@@ -52,11 +52,11 @@ View_activateWindow(i, d = 0) {
   If (i > 0) And (i <= wndId0) And (d = 0) {
     wndId := wndId%i%
     Window_set(wndId, "AlwaysOnTop", "On")
-    Window_set(wndId, "AlwaysOnTop", "Off")
+    Window_updateAlwaysOnTop(wndId)
     Window_#%wndId%_isMinimized := False
     Manager_winActivate(wndId)
   } Else If (wndId0 > 1) {
-    If Not InStr(Manager_managedWndIds, aWndId . ";") Or Window_#%aWndId%_isFloating
+    If Not InStr(Manager_managedWndIds, aWndId . ";") Or Window_#%aWndId%_isFloating And Not Config_floatingWndOnTop
       Window_set(aWndId, "Bottom", "")
     Loop, % wndId0 {
       If (wndId%A_Index% = aWndId) {
@@ -76,7 +76,7 @@ View_activateWindow(i, d = 0) {
       wndId := wndId%i%
       If Not Window_#%wndId%_isMinimized {
         Window_set(wndId, "AlwaysOnTop", "On")
-        Window_set(wndId, "AlwaysOnTop", "Off")
+        Window_updateAlwaysOnTop(wndId)
 
         ;; If there are hung windows on the screen, we still want to be able to cycle through them.
         failure := Manager_winActivate(wndId)
@@ -399,6 +399,7 @@ View_toggleFloatingWindow(wndId = 0) {
   Debug_logMessage("DEBUG[2] View_toggleFloatingWindow; wndId: " . wndId, 2)
   If (Config_layoutFunction_#%l% And InStr(Manager_managedWndIds, wndId ";")) {
     Window_#%wndId%_isFloating := Not Window_#%wndId%_isFloating
+    Window_updateAlwaysOnTop(wndId)
     If Config_centerFloatingWnd
       Window_moveToCenter(wndId)
     View_arrange(Manager_aMonitor, v)

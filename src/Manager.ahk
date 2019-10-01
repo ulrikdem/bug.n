@@ -150,6 +150,7 @@ Manager_cleanup()
     If Not Config_showBorder
       Window_set(A_LoopField, "Style", "+0x40000")
     Window_set(A_LoopField, "Style", "+0xC00000")
+    Window_set(A_LoopField, "AlwaysOnTop", "Off")
   }
 
   ;; Show the task bar.
@@ -333,6 +334,7 @@ Manager__setWinProperties(wndId, isManaged, m, tags, isDecorated, isFloating, hi
       Window_set(wndId, "Style", "-0x40000")
     If Not Window_#%wndId%_isDecorated
       Window_set(wndId, "Style", "-0xC00000")
+    Window_updateAlwaysOnTop(wndId)
 
     a := Window_#%wndId%_tags & (1 << (Monitor_#%m%_aView_#1 - 1))
     If a {
@@ -644,6 +646,7 @@ Manager_onShellMessage(wParam, lParam) {
       If Window_#%lParam%_isMinimized {
         Window_#%lParam%_isFloating := False
         Window_#%lParam%_isMinimized := False
+        Window_updateAlwaysOnTop(lParam)
         View_arrange(Manager_aMonitor, Monitor_#%Manager_aMonitor%_aView_#1)
       }
     }

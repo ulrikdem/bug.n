@@ -443,6 +443,11 @@ monitor, which is not occupied by the layout, therewith making a desktop widget
 visible.
 
 -------------------------------------------------------------------------------
+`Config_floatingWndOnTop=1`
+
+If true (`=1`), floating windows are always placed above tiled windows.
+
+-------------------------------------------------------------------------------
 `Config_centerFloatingWnd=0`
 
 If true (`=1`), new floating windows will be centered on the current monitor.

@@ -332,6 +332,12 @@ Window_toggleDecor(wndId = 0) {
     Window_set(wndId, "Style", "-0xC00000")
 }
 
+Window_updateAlwaysOnTop(wndId) {
+  Global
+
+  Window_set(wndId, "AlwaysOnTop", Window_#%wndId%_isFloating And Config_floatingWndOnTop ? "On" : "Off")
+}
+
 Window_moveToCenter(wndId = 0, allowTiled = False) {
   Local m, wndX, wndY, wndW, wndH
 

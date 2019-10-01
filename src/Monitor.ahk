@@ -94,7 +94,7 @@ Monitor_activateView(i, d = 0, hideWndIds = "") {
     {
       Window_show(A_LoopField)
     }
-    Window_set(wndId, "AlwaysOnTop", "Off")
+    Window_updateAlwaysOnTop(wndId)
     SetWinDelay, 10
     Manager_hideShow := False
 
