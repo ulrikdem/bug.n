@@ -1280,7 +1280,7 @@ Manager_watchMouseLabel:
 Return
 
 Manager_watchMouse() {
-  Local m, wndId, x, y
+  Local m, wndClass, wndId, x, y
   Static oldM, oldWndId
 
   CoordMode, Mouse, Screen
@@ -1290,7 +1290,8 @@ Manager_watchMouse() {
     Manager_activateMonitor(m)
     oldM := m
   }
-  If (wndId != oldWndId) And Not Window_isPopup(wndId) {
+  WinGetClass, wndClass, ahk_id %wndId%
+  If (wndId != oldWndId) And (Not Window_isPopup(wndId) Or wndClass = "ApplicationFrameWindow") {
     Window_activate(wndId)
     oldWndId := wndId
   }
