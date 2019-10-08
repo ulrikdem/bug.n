@@ -113,7 +113,6 @@ Config_init() {
   Config_monitorDisplayChangeMessages := "ask"    ;; "off" | "on" | "ask"
 
   Config_hotkeyCount := 0
-  Config_restoreConfig(A_ScriptDir (A_IsCompiled ? "" : "\..") "\Config.ini")
   Config_restoreConfig(Config_filePath)
   If (SubStr(A_OSVersion, 1, 3) = "10.") {
     Config_borderWidth    := 0
@@ -301,6 +300,7 @@ Config_restoreConfig(filename)
 {
   Local cmd, i, key, type, val, var
 
+  FileInstall, ..\Config.ini, % filename
   If Not FileExist(filename)
     Return
 
