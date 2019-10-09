@@ -34,6 +34,7 @@ Config_init() {
   Config_barTransparency   := "off"
   Config_showMonitor       := True
   Config_floatingWndPrefix := "~"
+  Config_centerTitle       := True
   Config_barCommands       := "Run, explore " Main_docDir ";Monitor_toggleBar();Reload;ExitApp"
   Config_showShebang       := True
   Config_readinBat         := False

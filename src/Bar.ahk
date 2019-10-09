@@ -106,6 +106,11 @@ Bar_init(m) {
   }
 
   ;; Window title (remaining space)
+  If Config_centerTitle {
+    titleWidth -= Abs(x1 - (wndWidth - x2))
+    If (x1 < wndWidth - x2)
+      x1 := wndWidth - x2
+  }
   If Not Config_singleRowBar {
     titleWidth := wndWidth
     x1 := 0

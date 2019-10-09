@@ -174,6 +174,12 @@ status bar.
 A string that is prepended to floating window titles in the status bar.
 
 -------------------------------------------------------------------------------
+`Config_centerTitle=1`
+
+If true (`=1`), the window title field in the status bar is shortened on one
+side so that it aligns exactly with the center of the bar.
+
+-------------------------------------------------------------------------------
 `Config_barCommands=Run, explore doc;Monitor_toggleBar();Reload;ExitApp`
 
 The commands separated by semicolon, which are listed in the command GUI of
