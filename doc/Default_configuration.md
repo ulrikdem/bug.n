@@ -163,7 +163,7 @@ At least on Windows >= 8 with `Config_verticalBarPos=tray` the bar won't be
 visible at all, if `Config_barTransparency` is not set to `off`.
 
 -------------------------------------------------------------------------------
-`Config_showMonitorInBar=1`
+`Config_showMonitor=1`
 
 If true (`=1`), the current monitor number is prepended to window titles in the
 status bar.

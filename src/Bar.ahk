@@ -467,7 +467,7 @@ Bar_updateTitle() {
     aWndTitle := ""
   If aWndId And InStr(Manager_managedWndIds, aWndId . ";") And Window_#%aWndId%_isFloating And Config_floatingWndPrefix
     aWndTitle := Config_floatingWndPrefix " " aWndTitle
-  If (Manager_monitorCount > 1) And Config_showMonitorInBar
+  If (Manager_monitorCount > 1) And Config_showMonitor
     aWndTitle := "[" Manager_aMonitor "] " aWndTitle
   title := " " . aWndTitle . " "
 

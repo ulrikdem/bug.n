@@ -32,7 +32,7 @@ Config_init() {
     Config_fontColor_#%A_Index% :=
   }
   Config_barTransparency   := "off"
-  Config_showMonitorInBar  := True
+  Config_showMonitor       := True
   Config_floatingWndPrefix := "~"
   Config_barCommands       := "Run, explore " Main_docDir ";Monitor_toggleBar();Reload;ExitApp"
   Config_showShebang       := True
