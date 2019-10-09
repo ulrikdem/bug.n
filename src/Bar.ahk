@@ -55,10 +55,12 @@ Bar_init(m) {
     x1 += w
   }
   ;; Layout
-  w := Bar_getTextWidth(" ?????? ")
-  Bar_addElement(m, "layout", " ?????? ", x1, y1, w, Config_backColor_#1_#2, Config_foreColor_#1_#2, Config_fontColor_#1_#2)
-  titleWidth -= w
-  x1 += w
+  If Config_showLayout {
+    w := Bar_getTextWidth(" ?????? ")
+    Bar_addElement(m, "layout", " ?????? ", x1, y1, w, Config_backColor_#1_#2, Config_foreColor_#1_#2, Config_fontColor_#1_#2)
+    titleWidth -= w
+    x1 += w
+  }
 
   ;; The x-position and width of the sub-windows right of the window title are set from the right.
   ;; <view>;<layout>;<title>;<shebang>;<time>;<date>;<anyText>;<batteryStatus>;<volumeLevel>
@@ -392,7 +394,8 @@ Bar_updateLayout(m) {
 
   aView := Monitor_#%m%_aView_#1
   GuiN := (m - 1) + 1
-  GuiControl, %GuiN%: , Bar_#%m%_layout, % View_#%m%_#%aView%_layoutSymbol
+  If Config_showLayout
+    GuiControl, %GuiN%: , Bar_#%m%_layout, % View_#%m%_#%aView%_layoutSymbol
 }
 
 Bar_updateStatic(m) {
