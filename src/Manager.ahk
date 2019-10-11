@@ -1291,8 +1291,7 @@ Manager_watchMouse() {
     oldM := m
   }
   WinGetClass, wndClass, ahk_id %wndId%
-  If (wndId != oldWndId) And (Not Window_isPopup(wndId) Or wndClass = "ApplicationFrameWindow") {
+  If (wndId != oldWndId) And InStr(Manager_managedWndIds, wndId ";")
     Window_activate(wndId)
-    oldWndId := wndId
-  }
+  oldWndId := wndId
 }
