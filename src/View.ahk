@@ -337,7 +337,7 @@ View_setLayoutProperty(name, i, d, opt = 0) {
   l := View_#%Manager_aMonitor%_#%v%_layout_#1
   If Tiler_isActive(Manager_aMonitor, v) {
     If (name = "Axis")
-      a := Tiler_setAxis(Manager_aMonitor, v, opt, d)
+      a := Tiler_setAxis(Manager_aMonitor, v, opt, i, d)
     Else If (name = "MFactor") {
       If (opt = 0)
         opt := 1

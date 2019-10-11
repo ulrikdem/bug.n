@@ -189,11 +189,13 @@ Tiler_layoutTiles(m, v, x, y, w, h, type = "") {
   }
 }
 
-Tiler_setAxis(m, v, id, d) {
+Tiler_setAxis(m, v, id, i, d) {
   Local f, n, tmp
 
   If (id = 1 Or id = 2 Or id = 3) {
     If (id = 1) {
+      If (i != 0)
+        View_#%m%_#%v%_layoutAxis_#%id% := i
       If (d = +2)
         View_#%m%_#%v%_layoutAxis_#%id% *= -1
       Else {
@@ -201,7 +203,7 @@ Tiler_setAxis(m, v, id, d) {
         View_#%m%_#%v%_layoutAxis_#%id% := f * Manager_loop(Abs(View_#%m%_#%v%_layoutAxis_#%id%), d, 1, 2)
       }
     } Else {
-      n := Manager_loop(View_#%m%_#%v%_layoutAxis_#%id%, d, 1, 3)
+      n := Manager_loop(i = 0 ? View_#%m%_#%v%_layoutAxis_#%id% : i, d, 1, 3)
       ;; When we rotate the axis, we may need to swap the X and Y dimensions.
       ;; We only need to check this when the master axis changes (id = 2)
       ;; If the original axis was 1 (X) or the new axis is 1 (X)  (Y and Z are defined to be the same)
