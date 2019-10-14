@@ -22,6 +22,7 @@ Monitor_init(m, doRestore) {
   Monitor_#%m%_showTaskBar  := Config_showTaskBar
   Monitor_#%m%_taskBarClass := ""
   Monitor_#%m%_taskBarPos   := ""
+  Monitor_#%m%_scratchpad   := ""
   Loop, % Config_viewCount
     View_init(m, A_Index)
   If doRestore
@@ -210,7 +211,7 @@ Monitor_getWorkArea(m) {
 }
 
 Monitor_moveToIndex(m, n) {
-  Global
+  Local wndId
 
   Monitor_#%n%_aView_#1 := Monitor_#%m%_aView_#1
   Monitor_#%n%_aView_#2 := Monitor_#%m%_aView_#2
@@ -219,6 +220,7 @@ Monitor_moveToIndex(m, n) {
   Monitor_#%n%_showTaskBar  := Monitor_#%m%_showTaskBar
   Monitor_#%n%_taskBarClass := Monitor_#%m%_taskBarClass
   Monitor_#%n%_taskBarPos   := Monitor_#%m%_taskBarPos
+  Monitor_#%n%_scratchpad   := Monitor_#%m%_scratchpad
   Monitor_#%n%_height := Monitor_#%m%_height
   Monitor_#%n%_width  := Monitor_#%m%_width
   Monitor_#%n%_x      := Monitor_#%m%_x
@@ -226,6 +228,9 @@ Monitor_moveToIndex(m, n) {
   Monitor_#%n%_barY   := Monitor_#%m%_barY
   Loop, % Config_viewCount
     View_moveToIndex(m, A_Index, n, A_Index)
+  wndId := Monitor_#%n%_scratchpad
+  If wndId
+    Window_#%wndId%_monitor := n
 }
 
 Monitor_setWindowTag(i, d = 0) {
@@ -340,13 +345,14 @@ Monitor_toggleTaskBar(m := 0) {
   }
 }
 
-Monitor_toggleWindowTag(i, d = 0) {
-  Local aWndId, wndId
+Monitor_toggleWindowTag(i, aWndId = 0, allowNoTags = False) {
+  Local wndId
 
-  WinGet, aWndId, ID, A
+  If (aWndId = 0)
+    WinGet, aWndId, ID, A
   If (InStr(Manager_managedWndIds, aWndId ";") And i >= 0 And i <= Config_viewCount) {
     If (Window_#%aWndId%_tags & (1 << i - 1)) {
-      If Not ((Window_#%aWndId%_tags - (1 << i - 1)) = 0) {
+      If Not ((Window_#%aWndId%_tags - (1 << i - 1)) = 0) Or allowNoTags {
         Window_#%aWndId%_tags -= 1 << i - 1
         StringReplace, View_#%Manager_aMonitor%_#%i%_wndIds, View_#%Manager_aMonitor%_#%i%_wndIds, %aWndId%`;,
         Bar_updateView(Manager_aMonitor, i)
@@ -365,8 +371,36 @@ Monitor_toggleWindowTag(i, d = 0) {
       View_setActiveWindow(Manager_aMonitor, i, aWndId)
       Bar_updateView(Manager_aMonitor, i)
       Window_#%aWndId%_tags += 1 << i - 1
+      If (i = Monitor_#%Manager_aMonitor%_aView_#1) {
+        Manager_hideShow := True
+        Window_show(aWndId)
+        Manager_hideShow := False
+        Manager_winActivate(aWndId)
+        If Config_dynamicTiling
+          View_arrange(Manager_aMonitor, i)
+      }
     }
   }
+}
+
+Monitor_hasScratchpad(m) {
+  Local detectHiddenWnds, wndId
+
+  detectHiddenWnds := A_DetectHiddenWindows
+  DetectHiddenWindows, On
+  wndId := WinExist("ahk_id" Monitor_#%m%_scratchpad)
+  DetectHiddenWindows, %detectHiddenWnds%
+  Return, wndId
+}
+
+Monitor_toggleScratchpad(command, workingDir = "", options = "") {
+  Local m
+
+  m := Manager_aMonitor
+  If Monitor_hasScratchpad(m)
+    Monitor_toggleWindowTag(Monitor_#%m%_aView_#1, Monitor_#%m%_scratchpad, True)
+  Else
+    Run, %command%, %workingDir%, %options%
 }
 
 Monitor_swapView(i, d = 0) {

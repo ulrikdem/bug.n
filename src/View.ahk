@@ -243,6 +243,11 @@ View_moveToIndex(m, v, n, w) {
     Else
       Window_#%A_LoopField%_tags -= 1 << v - 1
     Window_#%A_LoopField%_tags += 1 << w - 1
+    If (m != n) And (A_LoopField = Monitor_#%m%_scratchpad) {
+      Monitor_#%m%_scratchpad := ""
+      If Not Monitor_hasScratchpad(n)
+        Monitor_#%n%_scratchpad := aWndId
+    }
   }
 }
 

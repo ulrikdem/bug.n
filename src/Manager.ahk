@@ -318,6 +318,8 @@ Manager__setWinProperties(wndId, isManaged, m, tags, isDecorated, isFloating, hi
   If (isManaged) {
     If (action = "close" Or action = "maximize" Or action = "restore")
       Window_%action%(wndId)
+    Else If (action = "scratchpad") And Not Monitor_hasScratchpad(m)
+      Monitor_#%m%_scratchpad := wndId
 
     If Not InStr(Manager_managedWndIds, wndId ";")
       Manager_managedWndIds .= wndId ";"
@@ -702,7 +704,7 @@ Manager_registerShellHook() {
 ;; SKAN: How to Hook on to Shell to receive its messages? (http://www.autohotkey.com/forum/viewtopic.php?p=123323#123323)
 
 Manager_resetMonitorConfiguration() {
-  Local GuiN, hWnd, i, j, m, mPrimary, wndClass, wndIds, wndTitle
+  Local GuiN, hWnd, i, j, m, mPrimary, wndClass, wndId, wndIds, wndTitle
 
   m := Manager_monitorCount
   SysGet, Manager_monitorCount, MonitorCount
@@ -721,6 +723,12 @@ Manager_resetMonitorConfiguration() {
           {
             Window_#%A_LoopField%_monitor := mPrimary
             Window_moveToCenter(A_LoopField)
+          }
+          wndId := Monitor_#%i%_scratchpad
+          If wndId And Not Monitor_hasScratchpad(mPrimary) {
+            Monitor_#%mPrimary%_scratchpad := wndId
+            Window_#%wndId%_monitor := mPrimary
+            Window_moveToCenter(wndId)
           }
           If (Manager_aMonitor = i)
             Manager_aMonitor := mPrimary
@@ -1019,6 +1027,11 @@ Manager_setViewMonitor(i, d = 0) {
       Window_#%A_LoopField%_monitor := i
       Window_#%A_LoopField%_tags := 1 << v - 1
       Window_moveToCenter(A_LoopField)
+      If (A_LoopField = Monitor_#%Manager_aMonitor%_scratchpad) {
+        Monitor_#%Manager_aMonitor%_scratchpad := ""
+        If Not Monitor_hasScratchpad(i)
+          Monitor_#%i%_scratchpad := A_LoopField
+      }
     }
     View_arrange(Manager_aMonitor, aView)
     Loop, % Config_viewCount {
@@ -1087,6 +1100,12 @@ Manager_setWindowMonitor(i, d = 0) {
     Window_moveToCenter(aWndId)
     Manager_winActivate(aWndId)
     Bar_updateView(Manager_aMonitor, v)
+
+    If (aWndId = Monitor_#%Manager_aMonitor%_scratchpad) {
+      Monitor_#%Manager_aMonitor%_scratchpad := ""
+      If Not Monitor_hasScratchpad(i)
+        Monitor_#%i%_scratchpad := aWndId
+    }
   }
 }
 
@@ -1216,6 +1235,8 @@ Manager_unmanage(wndId) {
       Bar_updateView(Manager_aMonitor, A_Index)
     }
   }
+  If (wndId = Monitor_#%Manager_aMonitor%_scratchpad)
+    Monitor_#%Manager_aMonitor%_scratchpad :=
   Window_#%wndId%_monitor     :=
   Window_#%wndId%_tags        :=
   Window_#%wndId%_isDecorated :=
