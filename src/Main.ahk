@@ -105,19 +105,18 @@ Main_evalCommand(command)
     {
       functionName := SubStr(command, 1, i - 1)
       functionArguments := SubStr(command, i + 1, j - (i + 1))
-      StringReplace, functionArguments, functionArguments, %A_SPACE%, , All
       StringSplit, functionArgument, functionArguments, `,
       Debug_logMessage("DEBUG[1] Main_evalCommand: " functionName "(" functionArguments ")", 1)
       If (functionArgument0 = 0)
         %functionName%()
       Else If (functionArgument0 = 1)
-        %functionName%(functionArguments)
+        %functionName%(Trim(functionArguments))
       Else If (functionArgument0 = 2)
-        %functionName%(functionArgument1, functionArgument2)
+        %functionName%(Trim(functionArgument1), Trim(functionArgument2))
       Else If (functionArgument0 = 3)
-        %functionName%(functionArgument1, functionArgument2, functionArgument3)
+        %functionName%(Trim(functionArgument1), Trim(functionArgument2), Trim(functionArgument3))
       Else If (functionArgument0 = 4)
-        %functionName%(functionArgument1, functionArgument2, functionArgument3, functionArgument4)
+        %functionName%(Trim(functionArgument1), Trim(functionArgument2), Trim(functionArgument3), Trim(functionArgument4))
     }
   }
 }
