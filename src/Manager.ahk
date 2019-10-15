@@ -1074,7 +1074,7 @@ Manager_setWindowBorders()
 }
 
 Manager_setWindowMonitor(i, d = 0) {
-  Local aWndId, v
+  Local aWndId, isScratchpad, v
 
   WinGet, aWndId, ID, A
   If (Manager_monitorCount > 1 And InStr(Manager_managedWndIds, aWndId ";")) {
@@ -1083,6 +1083,11 @@ Manager_setWindowMonitor(i, d = 0) {
       StringReplace, View_#%Manager_aMonitor%_#%A_Index%_aWndIds, View_#%Manager_aMonitor%_#%A_Index%_aWndIds, %aWndId%`;, All
       Bar_updateView(Manager_aMonitor, A_Index)
     }
+    If (aWndId = Monitor_#%Manager_aMonitor%_scratchpad) {
+      Monitor_#%Manager_aMonitor%_scratchpad := ""
+      isScratchpad := True
+    } Else
+      isScratchpad := False
     If Config_dynamicTiling
       View_arrange(Manager_aMonitor, Monitor_#%Manager_aMonitor%_aView_#1)
 
@@ -1101,11 +1106,8 @@ Manager_setWindowMonitor(i, d = 0) {
     Manager_winActivate(aWndId)
     Bar_updateView(Manager_aMonitor, v)
 
-    If (aWndId = Monitor_#%Manager_aMonitor%_scratchpad) {
-      Monitor_#%Manager_aMonitor%_scratchpad := ""
-      If Not Monitor_hasScratchpad(i)
-        Monitor_#%i%_scratchpad := aWndId
-    }
+    If isScratchpad And Not Monitor_hasScratchpad(Manager_aMonitor)
+      Monitor_#%Manager_aMonitor%_scratchpad := aWndId
   }
 }
 
@@ -1272,28 +1274,65 @@ Manager_windowNotMaximized(width, height) {
   Return, (width < 0.99 * Monitor_#%Manager_aMonitor%_width Or height < 0.99 * Monitor_#%Manager_aMonitor%_height)
 }
 
-Manager_swapViewMonitor(i, d = 0, vi = 0, dv = 0) {
-  Local j, vj
-  j := Manager_aMonitor
-  vj := Monitor_#%j%_aView_#1
+Manager_swapViewMonitor(i, d = 0) {
+  Local j, scratchpadi, scratchpadj, tmp, vi, vj, wndIds
 
   If (i = 0)
     i := j
   i := Manager_loop(i, d, 1, Manager_monitorCount)
-  If (vi = 0)
-    vi := Monitor_#%i%_aView_#1
-  vi := Manager_loop(vi, dv, 1, Config_viewCount)
+  vi := Monitor_#%i%_aView_#1
+  j := Manager_aMonitor
+  vj := Monitor_#%j%_aView_#1
+
+  If (i != j) {
+    scratchpadi := False
+    scratchpadj := False
+    StringTrimRight, wndIds, View_#%i%_#%vi%_wndIds, 1
+    Loop, PARSE, wndIds, `;
+    {
+      Monitor_setWindowTag(vi, 0, A_LoopField, False)
+      If (A_LoopField = Monitor_#%i%_scratchpad)
+        scratchpadi := True
+    }
+    StringTrimRight, wndIds, View_#%j%_#%vj%_wndIds, 1
+    Loop, PARSE, wndIds, `;
+    {
+      Monitor_setWindowTag(vj, 0, A_LoopField, False)
+      If (A_LoopField = Monitor_#%j%_scratchpad)
+        scratchpadj := True
+    }
+
+    If scratchpadi And scratchpadj {
+      tmp := Monitor_#%i%_scratchpad
+      Monitor_#%i%_scratchpad := Monitor_#%j%_scratchpad
+      Monitor_#%j%_scratchpad := tmp
+    } Else If scratchpadi {
+      If Not Monitor_hasScratchpad(j)
+        Monitor_#%j%_scratchpad := Monitor_#%i%_scratchpad
+      Monitor_#%i%_scratchpad := ""
+    } Else If scratchpadj {
+      If Not Monitor_hasScratchpad(i)
+        Monitor_#%i%_scratchpad := Monitor_#%j%_scratchpad
+      Monitor_#%j%_scratchpad := ""
+    }
+  }
 
   View_moveToIndex(i, vi, 0, 1)
   View_moveToIndex(j, vj, i, vi)
   View_moveToIndex(0, 1, j, vj)
 
+  If (i != j) {
+    StringTrimRight, wndIds, View_#%i%_#%vi%_wndIds, 1
+    Loop, PARSE, wndIds, `;
+      Window_moveToCenter(A_LoopField)
+    StringTrimRight, wndIds, View_#%j%_#%vj%_wndIds, 1
+    Loop, PARSE, wndIds, `;
+      Window_moveToCenter(A_LoopField)
+  }
+
+  View_arrange(i, vi)
   Bar_updateView(i, vi)
-  If (vi = Monitor_#%i%_aView_#1) {
-    View_arrange(i, vi)
-    Monitor_activateView(vj)
-  } Else
-    Monitor_activateView(vj, 0, View_#%i%_#%vi%_wndIds)
+  Monitor_activateView(vj)
 }
 
 Manager_watchMouseLabel:
