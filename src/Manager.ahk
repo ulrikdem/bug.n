@@ -1283,52 +1283,50 @@ Manager_swapViewMonitor(i, d = 0) {
   vi := Monitor_#%i%_aView_#1
   j := Manager_aMonitor
   vj := Monitor_#%j%_aView_#1
+  If (i = j)
+    Return
 
-  If (i != j) {
-    scratchpadi := False
-    scratchpadj := False
-    StringTrimRight, wndIds, View_#%i%_#%vi%_wndIds, 1
-    Loop, PARSE, wndIds, `;
-    {
-      Monitor_setWindowTag(vi, 0, A_LoopField, False)
-      If (A_LoopField = Monitor_#%i%_scratchpad)
-        scratchpadi := True
-    }
-    StringTrimRight, wndIds, View_#%j%_#%vj%_wndIds, 1
-    Loop, PARSE, wndIds, `;
-    {
-      Monitor_setWindowTag(vj, 0, A_LoopField, False)
-      If (A_LoopField = Monitor_#%j%_scratchpad)
-        scratchpadj := True
-    }
+  scratchpadi := False
+  scratchpadj := False
+  StringTrimRight, wndIds, View_#%i%_#%vi%_wndIds, 1
+  Loop, PARSE, wndIds, `;
+  {
+    Monitor_setWindowTag(vi, 0, A_LoopField, False)
+    If (A_LoopField = Monitor_#%i%_scratchpad)
+      scratchpadi := True
+  }
+  StringTrimRight, wndIds, View_#%j%_#%vj%_wndIds, 1
+  Loop, PARSE, wndIds, `;
+  {
+    Monitor_setWindowTag(vj, 0, A_LoopField, False)
+    If (A_LoopField = Monitor_#%j%_scratchpad)
+      scratchpadj := True
+  }
 
-    If scratchpadi And scratchpadj {
-      tmp := Monitor_#%i%_scratchpad
+  If scratchpadi And scratchpadj {
+    tmp := Monitor_#%i%_scratchpad
+    Monitor_#%i%_scratchpad := Monitor_#%j%_scratchpad
+    Monitor_#%j%_scratchpad := tmp
+  } Else If scratchpadi {
+    If Not Monitor_hasScratchpad(j)
+      Monitor_#%j%_scratchpad := Monitor_#%i%_scratchpad
+    Monitor_#%i%_scratchpad := ""
+  } Else If scratchpadj {
+    If Not Monitor_hasScratchpad(i)
       Monitor_#%i%_scratchpad := Monitor_#%j%_scratchpad
-      Monitor_#%j%_scratchpad := tmp
-    } Else If scratchpadi {
-      If Not Monitor_hasScratchpad(j)
-        Monitor_#%j%_scratchpad := Monitor_#%i%_scratchpad
-      Monitor_#%i%_scratchpad := ""
-    } Else If scratchpadj {
-      If Not Monitor_hasScratchpad(i)
-        Monitor_#%i%_scratchpad := Monitor_#%j%_scratchpad
-      Monitor_#%j%_scratchpad := ""
-    }
+    Monitor_#%j%_scratchpad := ""
   }
 
   View_moveToIndex(i, vi, 0, 1)
   View_moveToIndex(j, vj, i, vi)
   View_moveToIndex(0, 1, j, vj)
 
-  If (i != j) {
-    StringTrimRight, wndIds, View_#%i%_#%vi%_wndIds, 1
-    Loop, PARSE, wndIds, `;
-      Window_moveToCenter(A_LoopField)
-    StringTrimRight, wndIds, View_#%j%_#%vj%_wndIds, 1
-    Loop, PARSE, wndIds, `;
-      Window_moveToCenter(A_LoopField)
-  }
+  StringTrimRight, wndIds, View_#%i%_#%vi%_wndIds, 1
+  Loop, PARSE, wndIds, `;
+    Window_moveToCenter(A_LoopField)
+  StringTrimRight, wndIds, View_#%j%_#%vj%_wndIds, 1
+  Loop, PARSE, wndIds, `;
+    Window_moveToCenter(A_LoopField)
 
   View_arrange(i, vi)
   Bar_updateView(i, vi)
