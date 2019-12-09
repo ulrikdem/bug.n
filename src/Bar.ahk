@@ -521,7 +521,7 @@ Bar_updateView(m, v) {
       StringSplit, wndId, wndIds, `;
 
       v := A_Index
-      If (v = Monitor_#%m%_aView_#1 && m = Manager_aMonitor) {
+      If (v = Monitor_#%m%_aView_#1 And m = Manager_aMonitor) {
         ;; Set foreground/background colors if the view is the current view on the active monitor.
         GuiControl, +Background%Config_backColor_#4_#1% +c%Config_foreColor_#4_#1%, Bar_#%m%_view_#%v%_highlighted
         GuiControl, +c%Config_fontColor_#4_#1%, Bar_#%m%_view_#%v%
