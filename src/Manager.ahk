@@ -1339,7 +1339,7 @@ Return
 
 Manager_watchMouse() {
   Local m, wndClass, wndId, x, y
-  Static oldM, oldWndId
+  Static oldM, oldWndId, oldX, oldY
 
   CoordMode, Mouse, Screen
   MouseGetPos, x, y, wndId
@@ -1348,8 +1348,9 @@ Manager_watchMouse() {
     Manager_activateMonitor(m)
     oldM := m
   }
-  WinGetClass, wndClass, ahk_id %wndId%
-  If (wndId != oldWndId) And InStr(Manager_managedWndIds, wndId ";")
+  If (x != oldX Or y != oldY) And wndId != oldWndId And InStr(Manager_managedWndIds, wndId ";")
     Window_activate(wndId)
+  oldX := x
+  oldY := y
   oldWndId := wndId
 }
