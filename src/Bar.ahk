@@ -14,7 +14,7 @@
 */
 
 Bar_init(m) {
-  Local appBarMsg, anyText, color, color0, GuiN, h1, h2, i, id, id0, text, text0, titleWidth, trayWndId, w, wndId, wndTitle, wndWidth, x1, x2, y1, y2
+  Local appBarMsg, anyText, color, color0, GuiN, h1, h2, i, id, id0, text, text0, titleWidth, trayWndId, w, wndId, wndTitle, wndWidth, x1, x2, y1, y2, vName, vNames0, vNames1, vNames2, vNames3, vNames4, vNames5, vNames6, vNames7, vNames8, vNames9
 
   If (SubStr(Config_barWidth, 0) = "%") {
     StringTrimRight, wndWidth, Config_barWidth, 1
@@ -48,9 +48,11 @@ Bar_init(m) {
   Gui, Font, c%Config_fontColor_#1_#3% s%Config_fontSize%, %Config_fontName%
 
   ;; Views
+  StringSplit, vNames, Config_viewNamesForMonitor_#%m%, `;
   Loop, % Config_viewCount {
-    w := Bar_getTextWidth(" " Config_viewNames_#%A_Index% " ")
-    Bar_addElement(m, "view_#" A_Index, " " Config_viewNames_#%A_Index% " ", x1, y1, w, Config_backColor_#1_#1, Config_foreColor_#1_#1, Config_fontColor_#1_#1)
+    vName := A_Index <= vNames0 ? vNames%A_Index% : Config_viewNames_#%A_Index%
+    w := Bar_getTextWidth(" " vName " ")
+    Bar_addElement(m, "view_#" A_Index, " " vName " ", x1, y1, w, Config_backColor_#1_#1, Config_foreColor_#1_#1, Config_fontColor_#1_#1)
     titleWidth -= w
     x1 += w
   }
@@ -504,7 +506,7 @@ Bar_updateTitle() {
 }
 
 Bar_updateView(m, v) {
-  Local managedWndId0, wndId0, wndIds
+  Local managedWndId0, wndId0, wndIds, vNames0, vNames1, vNames2, vNames3, vNames4, vNames5, vNames6, vNames7, vNames8, vNames9
 
   Debug_logMessage("DEBUG[6] Bar_updateView(): m: " . m . "; Gui, " . GuiN . ": Default", 6)
 
@@ -516,6 +518,7 @@ Bar_updateView(m, v) {
     GuiN := (m - 1) + 1
     Gui, %GuiN%: Default
 
+    StringSplit, vNames, Config_viewNamesForMonitor_#%m%, `;
     Loop, % Config_viewCount {
       StringTrimRight, wndIds, View_#%m%_#%A_Index%_wndIds, 1
       StringSplit, wndId, wndIds, `;
@@ -540,7 +543,7 @@ Bar_updateView(m, v) {
       }
 
       GuiControl, , Bar_#%m%_view_#%A_Index%_highlighted, % wndId0 / managedWndId0 * 100    ;; Update the percentage fill for the view.
-      GuiControl, , Bar_#%m%_view_#%A_Index%, % Config_viewNames_#%A_Index%                 ;; Refresh the number on the bar.
+      GuiControl, , Bar_#%m%_view_#%A_Index%, % A_Index <= vNames0 ? vNames%A_Index% : Config_viewNames_#%A_Index% ;; Refresh the number on the bar.
     }
   }
 }

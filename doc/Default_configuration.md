@@ -325,6 +325,12 @@ be exceeded by the configured hotkeys.
 layout, no layout function means floating behavior)
 
 -------------------------------------------------------------------------------
+`Config_viewNamesForMonitor_#<n>=`
+
+If set, overrides `Config_viewCount` on monitor n. The number of views is still
+determined by `Config_viewCount`.
+
+-------------------------------------------------------------------------------
 `Config_layoutCount=3`
 
 Total number of layouts defined above.
