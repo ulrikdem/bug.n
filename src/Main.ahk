@@ -22,6 +22,7 @@ SetBatchLines, -1
 SetTitleMatchMode, 3
 SetTitleMatchMode, fast
 SetWinDelay, 10
+FileEncoding, UTF-8-RAW
 #NoEnv
 #SingleInstance force
 ;#Warn                         ; Enable warnings to assist with detecting common errors.
