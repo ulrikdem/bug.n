@@ -39,10 +39,12 @@ Monitor_init(m, doRestore) {
   Bar_init(m)
 }
 
-Monitor_activateView(i, d = 0) {
-  Local aMonitor, aView, aWndId, detectHidden, m, n, wndId, wndIds
+Monitor_activateView(i, d = 0, aMonitor = 0, dMonitor = 0) {
+  Local aView, aWndId, detectHidden, m, n, wndId, wndIds
 
-  aMonitor := Manager_aMonitor
+  aMonitor := aMonitor ? aMonitor : Manager_aMonitor
+  aMonitor := Manager_loop(aMonitor, dMonitor, 1, Manager_monitorCount)
+
   If (i = -1)
     i := Monitor_#%aMonitor%_aView_#2
   Else If (i = 0)
@@ -102,7 +104,7 @@ Monitor_activateView(i, d = 0) {
     Bar_updateView(m, i)
   }
 
-  wndId := View_getActiveWindow(aMonitor, i)
+  wndId := View_getActiveWindow(Manager_aMonitor, Monitor_#%Manager_aMonitor%_aView_#1)
   Manager_winActivate(wndId)
 }
 
