@@ -653,6 +653,10 @@ Manager_onShellMessage(wParam, lParam) {
       }
     }
 
+    WinGetPos, aWndX, aWndY, aWndWidth, aWndHeight, A
+    If (Monitor_get(aWndX + aWndWidth / 2, aWndY + aWndHeight / 2) != Manager_aMonitor)
+      Manager_winActivate(View_getActiveWindow(Manager_aMonitor, Monitor_#%Manager_aMonitor%_aView_#1))
+
     ;; This is a workaround for a redrawing problem of the bug.n bar, which
     ;; seems to get lost, when windows are created or destroyed under the
     ;; following conditions.
