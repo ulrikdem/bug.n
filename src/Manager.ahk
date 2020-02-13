@@ -676,8 +676,11 @@ Manager_onShellMessage(wParam, lParam) {
 
 Manager_override(rule = "") {
   Local aWndId, aWndMinMax
-  
+
   WinGet, aWndId, ID, A
+  If Not Window_isProg(aWndId)
+    Return
+
   If (rule = "") {
     rule := Manager_getWindowRule(aWndId)
     InputBox, rule, bug.n: Override, % "Which rule should be applied?`n`n<is managed>;<m>;<tags>;<is floating>;<is decorated>;<hide title>;<action>",, 483, 152,,,,, % rule
