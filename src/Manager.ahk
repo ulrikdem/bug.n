@@ -177,12 +177,19 @@ Manager_cleanup()
   ;; SKAN: Crazy Scripting : Quick Launcher for Portable Apps (http://www.autohotkey.com/forum/topic22398.html)
 }
 
-Manager_closeWindow() {
+Manager_closeWindow(unmanage = False) {
   Local aWndId
 
   WinGet, aWndId, ID, A
   If Window_isProg(aWndId)
+  {
     Window_close(aWndId)
+    if unmanage
+    {
+      Manager_unmanage(aWndId)
+      View_arrange(Manager_aMonitor, Monitor_#%Manager_aMonitor%_aView_#1)
+    }
+  }
 }
 
 ; Asynchronous management of various WM properties.
